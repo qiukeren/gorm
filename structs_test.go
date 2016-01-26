@@ -18,8 +18,8 @@ type User struct {
 	UserNum           Num
 	Name              string        `sql:"size:255"`
 	Birthday          time.Time     // Time
-	CreatedAt         time.Time     // CreatedAt: Time of record is created, will be insert automatically
-	UpdatedAt         time.Time     // UpdatedAt: Time of record is updated, will be updated automatically
+	Created_At         time.Time     // Created_At: Time of record is created, will be insert automatically
+	Updated_At         time.Time     // Updated_At: Time of record is updated, will be updated automatically
 	Emails            []Email       // Embedded structs
 	BillingAddress    Address       // Embedded struct
 	BillingAddressID  sql.NullInt64 // Embedded struct's foreign key
@@ -42,17 +42,17 @@ type CreditCard struct {
 	ID        int8
 	Number    string
 	UserId    sql.NullInt64
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	Created_At time.Time
+	Updated_At time.Time
+	Deleted_At time.Time
 }
 
 type Email struct {
 	Id        int16
 	UserId    int
 	Email     string `sql:"type:varchar(100);"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	Created_At time.Time
+	Updated_At time.Time
 }
 
 type Address struct {
@@ -60,9 +60,9 @@ type Address struct {
 	Address1  string
 	Address2  string
 	Post      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	Created_At time.Time
+	Updated_At time.Time
+	Deleted_At time.Time
 }
 
 type Language struct {
@@ -75,8 +75,8 @@ type Product struct {
 	Id                    int64
 	Code                  string
 	Price                 int64
-	CreatedAt             time.Time
-	UpdatedAt             time.Time
+	Created_At             time.Time
+	Updated_At             time.Time
 	AfterFindCallTimes    int64
 	BeforeCreateCallTimes int64
 	AfterCreateCallTimes  int64
@@ -134,8 +134,8 @@ type Animal struct {
 	From       string    //test reserved sql keyword as field name
 	Age        time.Time `sql:"DEFAULT:current_timestamp"`
 	unexported string    // unexported value
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	Created_At  time.Time
+	Updated_At  time.Time
 }
 
 type JoinTable struct {

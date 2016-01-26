@@ -100,8 +100,8 @@ type BigEmail struct {
 	Email        string    `sql:"index:idx_email_agent"`
 	UserAgent    string    `sql:"index:idx_email_agent"`
 	RegisteredAt time.Time `sql:"unique_index"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+	Created_At    time.Time
+	Updated_At    time.Time
 }
 
 func (b BigEmail) TableName() string {

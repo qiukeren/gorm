@@ -4,7 +4,7 @@ import "time"
 
 type Model struct {
 	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index"`
+	Created_At time.Time
+	Updated_At time.Time
+	Deleted_At *time.Time `sql:"index"`
 }

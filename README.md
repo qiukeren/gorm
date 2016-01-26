@@ -95,9 +95,9 @@ type User struct {
 	Age          int
 	Name         string  `sql:"size:255"` // Default size for string is 255, you could reset it with this tag
 	Num          int     `sql:"AUTO_INCREMENT"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	DeletedAt    *time.Time
+	Created_At    time.Time
+	Updated_At    time.Time
+	Deleted_At    *time.Time
 
 	CreditCard        CreditCard      // One-To-One relationship (has one - use CreditCard's UserID as foreign key)
 	Emails            []Email         // One-To-Many relationship (has many - use Email's UserID as foreign key)
@@ -149,17 +149,17 @@ type User struct{} // struct User's database table name is "users" by default, w
 
 * Column name is the snake case of field's name
 * Use `ID` field as primary key
-* Use `CreatedAt` to store record's created time if field exists
-* Use `UpdatedAt` to store record's updated time if field exists
-* Use `DeletedAt` to store record's deleted time if field exists [Soft Delete](#soft-delete)
+* Use `Created_At` to store record's created time if field exists
+* Use `Updated_At` to store record's updated time if field exists
+* Use `Deleted_At` to store record's deleted time if field exists [Soft Delete](#soft-delete)
 * Gorm provide a default model struct, you could embed it in your struct
 
 ```go
 type Model struct {
 	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
+	Created_At time.Time
+	Updated_At time.Time
+	Deleted_At *time.Time
 }
 
 type User struct {
@@ -524,7 +524,7 @@ db.Where("email LIKE ?", "%jinzhu%").Delete(Email{})
 
 ### Soft Delete
 
-If struct has `DeletedAt` field, it will get soft delete ability automatically!
+If struct has `Deleted_At` field, it will get soft delete ability automatically!
 Then it won't be deleted from database permanently when call `Delete`.
 
 ```go

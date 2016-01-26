@@ -42,18 +42,18 @@ func TestCreate(t *testing.T) {
 		t.Errorf("Float64 should not be changed after save")
 	}
 
-	if user.CreatedAt.IsZero() {
+	if user.Created_At.IsZero() {
 		t.Errorf("Should have created_at after create")
 	}
 
-	if newUser.CreatedAt.IsZero() {
+	if newUser.Created_At.IsZero() {
 		t.Errorf("Should have created_at after create")
 	}
 
 	DB.Model(user).Update("name", "create_user_new_name")
 	DB.First(&user, user.Id)
-	if user.CreatedAt.Format(time.RFC3339Nano) != newUser.CreatedAt.Format(time.RFC3339Nano) {
-		t.Errorf("CreatedAt should not be changed after update")
+	if user.Created_At.Format(time.RFC3339Nano) != newUser.Created_At.Format(time.RFC3339Nano) {
+		t.Errorf("Created_At should not be changed after update")
 	}
 }
 

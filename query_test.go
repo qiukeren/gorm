@@ -468,8 +468,8 @@ func TestFillSmallerStruct(t *testing.T) {
 	type SimpleUser struct {
 		Name      string
 		Id        int64
-		UpdatedAt time.Time
-		CreatedAt time.Time
+		Updated_At time.Time
+		Created_At time.Time
 	}
 
 	var simpleUser SimpleUser
@@ -546,9 +546,9 @@ func TestFindOrCreate(t *testing.T) {
 		t.Errorf("user should be created with search value and attrs")
 	}
 
-	updatedAt1 := user4.UpdatedAt
+	updatedAt1 := user4.Updated_At
 	DB.Where(&User{Name: "find or create 3"}).Assign("age", 55).FirstOrCreate(&user4)
-	if updatedAt1.Format(time.RFC3339Nano) == user4.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt1.Format(time.RFC3339Nano) == user4.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("UpdateAt should be changed when update values with assign")
 	}
 

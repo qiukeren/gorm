@@ -18,8 +18,8 @@ type PersonAddress struct {
 	gorm.JoinTableHandler
 	PersonID  int
 	AddressID int
-	DeletedAt time.Time
-	CreatedAt time.Time
+	Deleted_At time.Time
+	Created_At time.Time
 }
 
 func (*PersonAddress) Add(handler gorm.JoinTableHandlerInterface, db *gorm.DB, foreignValue interface{}, associationValue interface{}) error {

@@ -19,12 +19,12 @@ func TestUpdate(t *testing.T) {
 
 	DB.First(&product1, product1.Id)
 	DB.First(&product2, product2.Id)
-	updatedAt1 := product1.UpdatedAt
-	updatedAt2 := product2.UpdatedAt
+	updatedAt1 := product1.Updated_At
+	updatedAt2 := product2.Updated_At
 
 	var product3 Product
 	DB.First(&product3, product2.Id).Update("code", "product2newcode")
-	if updatedAt2.Format(time.RFC3339Nano) != product3.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt2.Format(time.RFC3339Nano) != product3.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("updatedAt should not be updated if nothing changed")
 	}
 
@@ -44,7 +44,7 @@ func TestUpdate(t *testing.T) {
 
 	var product4 Product
 	DB.First(&product4, product1.Id)
-	if updatedAt1.Format(time.RFC3339Nano) != product4.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt1.Format(time.RFC3339Nano) != product4.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("updatedAt should be updated if something changed")
 	}
 
@@ -56,17 +56,17 @@ func TestUpdate(t *testing.T) {
 		t.Errorf("Product should not be changed to 789")
 	}
 
-	if DB.Model(product2).Update("CreatedAt", time.Now().Add(time.Hour)).Error != nil {
+	if DB.Model(product2).Update("Created_At", time.Now().Add(time.Hour)).Error != nil {
 		t.Error("No error should raise when update with CamelCase")
 	}
 
-	if DB.Model(&product2).UpdateColumn("CreatedAt", time.Now().Add(time.Hour)).Error != nil {
+	if DB.Model(&product2).UpdateColumn("Created_At", time.Now().Add(time.Hour)).Error != nil {
 		t.Error("No error should raise when update_column with CamelCase")
 	}
 
 	var products []Product
 	DB.Find(&products)
-	if count := DB.Model(Product{}).Update("CreatedAt", time.Now().Add(2*time.Hour)).RowsAffected; count != int64(len(products)) {
+	if count := DB.Model(Product{}).Update("Created_At", time.Now().Add(2*time.Hour)).RowsAffected; count != int64(len(products)) {
 		t.Error("RowsAffected should be correct when do batch update")
 	}
 
@@ -77,25 +77,25 @@ func TestUpdate(t *testing.T) {
 	if product5.Price != product4.Price+100-50 {
 		t.Errorf("Update with expression")
 	}
-	if product5.UpdatedAt.Format(time.RFC3339Nano) == product4.UpdatedAt.Format(time.RFC3339Nano) {
-		t.Errorf("Update with expression should update UpdatedAt")
+	if product5.Updated_At.Format(time.RFC3339Nano) == product4.Updated_At.Format(time.RFC3339Nano) {
+		t.Errorf("Update with expression should update Updated_At")
 	}
 }
 
 func TestUpdateWithNoStdPrimaryKeyAndDefaultValues(t *testing.T) {
 	animal := Animal{Name: "Ferdinand"}
 	DB.Save(&animal)
-	updatedAt1 := animal.UpdatedAt
+	updatedAt1 := animal.Updated_At
 
 	DB.Save(&animal).Update("name", "Francis")
 
-	if updatedAt1.Format(time.RFC3339Nano) == animal.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt1.Format(time.RFC3339Nano) == animal.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("updatedAt should not be updated if nothing changed")
 	}
 
 	var animals []Animal
 	DB.Find(&animals)
-	if count := DB.Model(Animal{}).Update("CreatedAt", time.Now().Add(2*time.Hour)).RowsAffected; count != int64(len(animals)) {
+	if count := DB.Model(Animal{}).Update("Created_At", time.Now().Add(2*time.Hour)).RowsAffected; count != int64(len(animals)) {
 		t.Error("RowsAffected should be correct when do batch update")
 	}
 
@@ -134,8 +134,8 @@ func TestUpdates(t *testing.T) {
 
 	DB.First(&product1, product1.Id)
 	DB.First(&product2, product2.Id)
-	updatedAt1 := product1.UpdatedAt
-	updatedAt2 := product2.UpdatedAt
+	updatedAt1 := product1.Updated_At
+	updatedAt2 := product2.Updated_At
 
 	var product3 Product
 	DB.First(&product3, product1.Id).Updates(Product{Code: "product1newcode", Price: 100})
@@ -143,7 +143,7 @@ func TestUpdates(t *testing.T) {
 		t.Errorf("Record should be updated with struct")
 	}
 
-	if updatedAt1.Format(time.RFC3339Nano) != product3.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt1.Format(time.RFC3339Nano) != product3.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("updatedAt should not be updated if nothing changed")
 	}
 
@@ -162,7 +162,7 @@ func TestUpdates(t *testing.T) {
 
 	var product4 Product
 	DB.First(&product4, product2.Id)
-	if updatedAt2.Format(time.RFC3339Nano) != product4.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt2.Format(time.RFC3339Nano) != product4.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("updatedAt should be updated if something changed")
 	}
 
@@ -176,8 +176,8 @@ func TestUpdates(t *testing.T) {
 	if product5.Price != product4.Price+100 {
 		t.Errorf("Updates with expression")
 	}
-	if product5.UpdatedAt.Format(time.RFC3339Nano) == product4.UpdatedAt.Format(time.RFC3339Nano) {
-		t.Errorf("Updates with expression should update UpdatedAt")
+	if product5.Updated_At.Format(time.RFC3339Nano) == product4.Updated_At.Format(time.RFC3339Nano) {
+		t.Errorf("Updates with expression should update Updated_At")
 	}
 }
 
@@ -196,11 +196,11 @@ func TestUpdateColumn(t *testing.T) {
 	}
 
 	DB.First(&product2, product2.Id)
-	updatedAt2 := product2.UpdatedAt
+	updatedAt2 := product2.Updated_At
 	DB.Model(product2).UpdateColumn("code", "update_column_new")
 	var product4 Product
 	DB.First(&product4, product2.Id)
-	if updatedAt2.Format(time.RFC3339Nano) != product4.UpdatedAt.Format(time.RFC3339Nano) {
+	if updatedAt2.Format(time.RFC3339Nano) != product4.Updated_At.Format(time.RFC3339Nano) {
 		t.Errorf("updatedAt should not be updated with update column")
 	}
 
@@ -210,8 +210,8 @@ func TestUpdateColumn(t *testing.T) {
 	if product5.Price != product4.Price+100-50 {
 		t.Errorf("UpdateColumn with expression")
 	}
-	if product5.UpdatedAt.Format(time.RFC3339Nano) != product4.UpdatedAt.Format(time.RFC3339Nano) {
-		t.Errorf("UpdateColumn with expression should not update UpdatedAt")
+	if product5.Updated_At.Format(time.RFC3339Nano) != product4.Updated_At.Format(time.RFC3339Nano) {
+		t.Errorf("UpdateColumn with expression should not update Updated_At")
 	}
 }
 
